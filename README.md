@@ -1,2 +1,7 @@
-# perforce-hth-aws-deploy
-Perforce HTH AWS Deployments 
+## A Perforce HTH Deployment for AWS
+
+###Python 2.7+
+  awacs
+  pip 
+  troposphere
+
