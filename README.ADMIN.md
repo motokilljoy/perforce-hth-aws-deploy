@@ -43,13 +43,19 @@ Deployment types.
 
 Common issues.
  - Broken yum repositories and or missing/changed pgp package keys that impede deployment.
+
    CloudFormation common errors when SaltStack fails to deploy the applications on your EC2 hosts because of yum or salt bootstrap related issues.  
+
    Status          Type                                Logical ID    Status reason
+
    CREATE_FAILED   AWS::CloudFormation::Stack          skunkworks    The following resource(s) failed to create: [WaitCondition].
+
    CREATE_FAILED   AWS::CloudFormation::WaitCondition                WaitCondition   WaitCondition received failed message: 'salt deploy complete' for uniqueId: i-xxxxxxxxxxxx
    
 SSL Certificates. 
+
   This document will not discuss how to get or make an SSL Certificate. 
+
   But will cover the proper install of the certificate on HAProxy.
   
   - SSH to your "Prod - Perforce Helix Main Server - skunkworks" EC2 Host.
@@ -68,30 +74,45 @@ SSL Certificates.
     Result: "rw-------  1 root root 8440 Nov  8 18:37 p4www.pem"
 
   - For the SSL Certificate to work properly it must include the following supporting certificates in the correct order. 
+
     -----BEGIN RSA PRIVATE KEY----
+
       First: your private key here.
+
     -----END RSA PRIVATE KEY-----
+
     -----BEGIN CERTIFICATE-----
+
       Second: your issued certificate here.
+
     -----END CERTIFICATE-----
+
     -----BEGIN CERTIFICATE-----
+
       Third: your root or intermediate certificate authority here.
+
     -----END CERTIFICATE-----
+
     -----BEGIN CERTIFICATE-----
+
       Forth: your root or intermediate certificate authority here.
+
     -----END CERTIFICATE-----
+
     Etc........ 
 
 
 **Pricing vs Performance**
 
   It's important that you read and understand the AWS documentation on Costs vs Performance when choosing to allocate both EC2 and EBS resources. 
+
   Getting it wrong means you can have both a deployment that does not perform and is expensive. 
 
   1: https://aws.amazon.com/ebs/pricing/ 
   2: http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html 
   
   Minimum Requirements for P4D on EC2 Host.
+
   Not including any requirements for effective use of EBS volumes.
    - Ram: 2GB ~ 50 to 100 Perforce Users 
    - CPU: 1
@@ -122,15 +143,24 @@ Simple Stack policies:
   AWS Stack policies will not PREVENT deletion of your deployment.
   
   Deny: 
+
     aws cloudformation set-stack-policy --stack-name skunkworks --stack-policy-url https://s3-us-west-2.amazonaws.com/perforce-ami-policy/deny-updates-all.policy
+
   Allow: 
+
     aws cloudformation set-stack-policy --stack-name skunkworks --stack-policy-url https://s3-us-west-2.amazonaws.com/perforce-ami-policy/allow-updates-all.policy
 
  Notes: 
+
   https://www.perforce.com/perforce/r15.1/manuals/p4sag/index.html
+
   http://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html#Using_CreateUser_console 
+
   http://docs.aws.amazon.com/codedeploy/latest/userguide/how-to-create-iam-instance-profile.html
+
   http://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-setup.html 
+
   https://aws.amazon.com/blogs/devops/aws-cloudformation-security-best-practices/
+
   http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html
 
